@@ -1,0 +1,135 @@
+\documentclass[12pt, letterpaper]{../assignment}
+\usepackage{graphicx}
+\usepackage{courier}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{commath}
+\usepackage{amssymb}
+\usepackage{amsfonts} 
+\usepackage{cancel}
+\usemintedstyle{monokai}
+\oddsidemargin = 0pt
+\exercisesheet{Homework 1}{Assignment}
+\student{Austin Barrilleaux}
+\courselabel{EN 525.609}
+\semester{Fall 2023}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\bibliography{reference}
+\usepackage{color}
+\definecolor{light-gray}{rgb}{0.2,0.2,0.2}
+\setminted{bgcolor=light-gray}
+\setlength{\parindent}{0pt}
+
+\makeatletter
+\patchcmd{\minted@colorbg}{\noindent}{\medskip\noindent}{}{}
+\apptocmd{\endminted@colorbg}{\par\medskip}{}{}
+\makeatother
+
+\begin{document}
+\subsection*{Problem 1}
+\subsubsection*{Solve the following practice problems in the 9-th edition textbook.\\
+\begin{itemize}
+    \item Chapter 2: problems 2-16(a) and 2-22(a).
+\end{itemize}}
+
+\subsubsection*{2-16(a): Find the Laplace transform of the following function:
+$$ g(t) = 5 t e^{- 5 t} u_s (t) $$}
+
+The unit-step function that is defined as:
+
+\[ u_s(t) = \begin{cases} 
+    1 & t \geq 0 \\
+    0 & t < 0 
+ \end{cases} \]
+
+ The Laplace transform is:
+$$ G(s) = \mathcal{L}\{5 t e^{- 5 t} u_s (t)\} =
+\int_{t=0}^{\infty} \left(5 t e^{- 5 t}\right) e^{-st} dt  $$
+
+This can be written as:
+
+$$ G(s) = 5 \int_{t=0}^{\infty} t e^{-( s + 5 )t} dt  $$
+
+Using integration by parts:
+
+$$ G(s) =  \eval{\frac{5 t e^{-( s + 5 )t}}{-( s + 5 )}}_0^\infty - \frac{5}{-( s + 5 )} \int_{t=0}^{\infty} e^{-( s + 5 )t} dt  $$
+
+
+Which further evaluates to:
+
+$$ G(s) = \eval{\frac{ 5 t e^{-( s + 5 )t}}{-( s + 5 )}}_0^\infty - \eval{\frac{5}{-( s + 5 )} \frac{e^{-( s + 5 )t}}{-( s + 5 )} }_0^\infty  $$
+
+Or:
+
+$$ G(s) = \eval{\frac{ 5 t e^{-( s + 5 )t}}{-( s + 5 )}}_0^\infty - \eval{ \frac{5 e^{-( s + 5 )t}}{( s + 5 )^2} }_0^\infty $$
+
+Evaluating the limits:
+
+$$ G(s) = \left[\frac{ 5 \cancelto{0}{\infty e^{-( s + 5 )\infty}}}{-( s + 5 )}-\frac{ 5 \cancelto{0}{0 e^{-( s + 5 )0}}}{-( s + 5 )}\right]
+ - \left[\frac{5 \cancelto{0}{e^{-( s + 5 )\infty}}}{( s + 5 )^2} - \frac{5 \cancelto{1}{e^{-( s + 5 )0}}}{( s + 5 )^2} \right] $$
+
+This results in the solution:
+
+\begin{answer}
+$$ G(s) = \frac{5}{( s + 5 )^2}$$
+\end{answer}
+
+Using the following Laplace Transform from the table in the textbook, we can get the same answer:
+
+$$ t e^{-\alpha t} \Leftrightarrow \frac{1}{(s+\alpha)^2} $$
+
+\subsubsection*{2-22(a): Solve the following differential equations by means of the Laplace transform.
+Assume zero initial conditions.}
+
+$$ \frac{d^2 f(t)}{d t^2} + 5\frac{d f(t)}{d t} + 4 f(t) = e^{-2t} u_s(t) $$
+
+Take the Laplace transform of both sides:
+
+$$ s^2 F(s) - s f(0) - f'(0) + 5s F(s) - f(0)  + 4 F(s) =  \frac{1}{s+2} $$
+
+Evaluate initial conditions:
+
+$$ s^2 F(s) \cancelto{0}{- s f(0)} - \cancelto{0}{f'(0)} + 5s F(s) - \cancelto{0}{f(0)}  + 4 F(s) =  \frac{1}{s+2} $$
+
+Which gives us:
+
+$$ s^2 F(s) + 5s F(s)  + 4 F(s) =  \frac{1}{s+2} $$
+
+Solving for $F(s)$, the solution is:
+
+\begin{answer}
+$$ F(s) =  \frac{s^2 + 5s + 4}{s+2} $$
+\end{answer}
+
+\subsection*{Problem 2}
+\subsubsection*{Consider the nonlinear system, below, and linearize the system about the nominal point x=2
+$$ \dot{x} = 2 x^2 - x $$ }
+
+Linearizing via Taylor Series expansion:
+
+$$ \dot{x} = f(x) \approx f(x_n) + \eval{\frac{d f(x)}{d x}}_{x=x_n}(x-x_n)$$
+
+where:
+
+$$ f(x) = 2 x^2 - x $$
+
+and:
+
+$$ \frac{d f(x)}{d x} = 4x - 1 $$
+
+Using this, we can solve that:
+
+$$ \dot{x} \approx (2(2)^2 - 2) + (4(2) - 1)(x-2)$$
+
+This simplifies to following linear equation:
+
+\begin{answer}
+$$ \dot{x} \approx 7x - 8 $$
+\end{answer}
+
+\subsection*{Problem 3}
+\subsubsection*{Compute the Laplace Transform of $f(t)=\sin(\omega t)$ using the one-sided transform integral}
+
+
+\end{document}
+
