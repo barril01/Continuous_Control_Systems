@@ -9,7 +9,7 @@
 \usepackage{cancel}
 \usemintedstyle{monokai}
 \oddsidemargin = 0pt
-\exercisesheet{Homework 1}{Assignment}
+\exercisesheet{Module 1}{Practice Assignment}
 \student{Austin Barrilleaux}
 \courselabel{EN 525.609}
 \semester{Fall 2023}
@@ -27,9 +27,13 @@
 
 \begin{document}
 \subsection*{Problem 1}
-\subsubsection*{Solve the following practice problems in the 9-th edition textbook.\\
+\subsubsection*{Solve the following practice problems in the 9th edition textbook.\\
 \begin{itemize}
-    \item Chapter 2: problems 2-16(a) and 2-22(a).
+    \item Chapter 2:
+    \begin{itemize}
+        \item 2-16(a)
+        \item 2-22(a)
+    \end{itemize}
 \end{itemize}}
 
 \subsubsection*{2-16(a): Find the Laplace transform of the following function:
@@ -42,7 +46,7 @@ The unit-step function that is defined as:
     0 & t < 0 
  \end{cases} \]
 
- The Laplace transform is:
+The Laplace transform is:
 $$ G(s) = \mathcal{L}\{5 t e^{- 5 t} u_s (t)\} =
 \int_{t=0}^{\infty} \left(5 t e^{- 5 t}\right) e^{-st} dt  $$
 
@@ -128,7 +132,284 @@ $$ \dot{x} \approx 7x - 8 $$
 \end{answer}
 
 \subsection*{Problem 3}
-\subsubsection*{Compute the Laplace Transform of $f(t)=\sin(\omega t)$ using the one-sided transform integral}
+\subsubsection*{Compute the Laplace Transform of $f(t)=\sin(\omega t)$ using the one-sided transform integral.}
+
+The Laplace transform is:
+$$ F(s) = \mathcal{L}\{\sin(\omega t)\} =
+\int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt  $$
+
+Using integration by parts this becomes:
+
+$$ F(s) = \eval{-\frac{e^{-st}}{s} \sin(\omega t)}_0^\infty -
+\int_{t=0}^{\infty} \cos(\omega t) \omega \frac{-e^{-st}}{s} dt  $$
+
+Using integration by parts again this becomes:
+
+$$ F(s) = \eval{-\frac{e^{-st}}{s} \sin(\omega t)}_0^\infty - \cos(\omega t) \omega \frac{e^{-st}}{s^2}
+- \int_{t=0}^{\infty} \sin(\omega t) \omega^2 \frac{e^{-st}}{s^2} dt  $$
+
+Rewriting this equation as:
+
+$$ \int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt = \eval{-\frac{e^{-st}}{s} \sin(\omega t)}_0^\infty - \eval{\cos(\omega t) \omega \frac{e^{-st}}{s^2}}_0^\infty
+- \int_{t=0}^{\infty} \sin(\omega t) \omega^2 \frac{e^{-st}}{s^2} dt  $$
+
+Evaluating the first two terms in the equation:
+
+\begin{equation*}
+    \begin{aligned}
+    \int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt =& -\left[\cancelto{0}{\frac{e^{-s(\infty)}}{s} \sin(\omega \infty)} - \cancelto{0}{\frac{e^{-s((0))}}{s} \sin(\omega (0))} \right]\\
+&- \left[\cancelto{0}{\cos(\omega \infty) \omega \frac{e^{-s\infty}}{s^2}} - \cancelto{\frac{\omega}{s^2}}{\cos(\omega (0)) \omega \frac{e^{-s(0)}}{s^2}} \right]\\
+&- \int_{t=0}^{\infty} \sin(\omega t) \omega^2 \frac{e^{-st}}{s^2} dt
+\end{aligned}
+\end{equation*}
+
+The equation therefore reduces to:
+
+\begin{equation*}
+    \begin{aligned}
+    \int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt =& \frac{\omega}{s^2} - \int_{t=0}^{\infty} \sin(\omega t) \omega^2 \frac{e^{-st}}{s^2} dt
+\end{aligned}
+\end{equation*}
+
+If we add $\int_{t=0}^{\infty} \sin(\omega t) \omega^2 \frac{e^{-st}}{s^2} dt$ to both sides:
+
+\begin{equation*}
+    \begin{aligned}
+    \int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt + \int_{t=0}^{\infty} \sin(\omega t) \omega^2 \frac{e^{-st}}{s^2} dt =& \frac{\omega}{s^2}
+\end{aligned}
+\end{equation*}
+
+And gather terms:
+
+\begin{equation*}
+    \begin{aligned}
+    \left(1+\frac{\omega^2}{s^2}\right)\int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt = \frac{\omega}{s^2}
+\end{aligned}
+\end{equation*}
+
+We can solve for $\int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt$:
+
+\begin{equation*}
+    \begin{aligned}
+    \int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt = \frac{ \frac{\omega}{s^2} }{\left(1+\frac{\omega^2}{s^2}\right)}
+\end{aligned}
+\end{equation*}
+
+If we multiply the top and bottom of the left-hand side by $s^2$ we get the solution:
+
+\begin{equation*}
+    \begin{aligned}
+    \int_{t=0}^{\infty} \sin(\omega t) e^{-st} dt = \frac{ \omega }{\left(s^2+\omega^2\right)}
+\end{aligned}
+\end{equation*}
+
+Therefore:
+\begin{answer}
+    
+\begin{equation*}
+    \begin{aligned}
+        F(s) = \frac{ \omega }{\left(s^2+\omega^2\right)}
+\end{aligned}
+\end{equation*}
+\end{answer}
+
+This matches the transform from the table in the textbook.
+
+\subsection*{Problem 4}
+\subsubsection*{Compute the inverse Laplace transform of the following transfer function using the PFE method and the transform tables in the text:
+$$ G(s) = \frac{1}{s(s+1)^3(s+2)} $$}
+
+First perform the partial fraction expansion of the transfer function:
+
+\begin{equation*}
+    \begin{aligned}
+        \frac{1}{s(s+1)^3(s+2)} = \frac{A}{s} + \frac{B}{(s+1)} + \frac{C}{(s+1)^2} + \frac{D}{(s+1)^3} + \frac{E}{(s+2)}
+    \end{aligned}
+\end{equation*}
+
+Multiply both side by $s(s+1)^3(s+2)$:
+
+\begin{equation*}
+    \begin{aligned}
+        1 = &A(s+1)^3(s+2) + B s(s+1)^2(s+2) +\\ &C s(s+1)(s+2) + D s (s+2) + Es(s+1)^3
+\end{aligned}
+\end{equation*}
+
+Expand:
+
+\begin{equation*}
+    \begin{aligned}
+        1 = &A s^4 + 5A s^3 + 9A s^2 + 7 A s +2A  + B s^4 + 4 B s^3 + 5 B s^2 + 2 B s +\\ &C s^3 +  3C s^2 + 2C s  + Ds^2+2 D s + E ^4 + 3E s^3 + 3E s^2+ Es
+    \end{aligned}
+\end{equation*}
+
+Collect like powers of $s$:
+
+\begin{equation*}
+    \begin{aligned}
+        1 = &s^4(A + B + E) + \\ &s^3 (5A + 4B + C + 3E) + \\ &s^2 (9A + 5B + 3C + D + 3E) + \\ &s(7A + 2B + 2C + 2D + E) + \\ &2A
+    \end{aligned}
+\end{equation*}
+
+Equate the coefficients of like powers on both sides to create a system of equations:
+
+\begin{equation*}
+    \begin{aligned}
+        1 = &2A\\
+        0 = &(7A + 2B + 2C + 2D + E) \\
+        0 = &(9A + 5B + 3C + D + 3E) \\
+        0 = &(5A + 4B + C + 3E) \\
+        0 = &(A + B + E) \\
+    \end{aligned}
+\end{equation*}
+
+This expressed as a matrix is:
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            2 & 0 & 0 & 0 & 0 & 1\\
+            7 & 2 & 2 & 2 & 1 & 0\\
+            9 & 5 & 3 & 1 & 3 & 0\\
+            5 & 4 & 1 & 0 & 3 & 0\\
+            1 & 1 & 0 & 0 & 1 & 0
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+The following steps put the matrix into reduced row echelon form.
+\\\\
+
+Steps: R1/2
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            7 & 2 & 2 & 2 & 1 & 0\\
+            9 & 5 & 3 & 1 & 3 & 0\\
+            5 & 4 & 1 & 0 & 3 & 0\\
+            1 & 1 & 0 & 0 & 1 & 0
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: R2 - 7 $\cdot$ R1, R3 - 9 $\cdot$ R1, R4 - 5 $\cdot$ R1, R5 - R1
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 2 & 2 & 2 & 1 & -\frac{7}{2}\\
+            0 & 5 & 3 & 1 & 3 & -\frac{9}{2}\\
+            0 & 4 & 1 & 0 & 3 & -\frac{5}{2}\\
+            0 & 1 & 0 & 0 & 1 & -\frac{1}{2}
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: R2 - 2 $\cdot$ R5, R3 - 5 $\cdot$ R5, R4 - 4 $\cdot$ R5
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 0 & 2 & 2 & -1 & -\frac{5}{2}\\
+            0 & 0 & 3 & 1 & -2 & -\frac{4}{2}\\
+            0 & 0 & 1 & 0 & -1 & -\frac{1}{2}\\
+            0 & 1 & 0 & 0 & 1 & -\frac{1}{2}
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: R2 - 2 $\cdot$ R4, R3 - 3 $\cdot$ R4
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 0 & 0 & 2 & 1 & -\frac{3}{2}\\
+            0 & 0 & 0 & 1 & 0 & -1\\
+            0 & 0 & 1 & 0 & -1 & -\frac{1}{2}\\
+            0 & 1 & 0 & 0 & 1 & -\frac{1}{2}
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: R2 - 2 $\cdot$ R3
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 0 & 0 & 0 & 1 & \frac{1}{2}\\
+            0 & 0 & 0 & 1 & 0 & -1\\
+            0 & 0 & 1 & 0 & -1 & -\frac{1}{2}\\
+            0 & 1 & 0 & 0 & 1 & -\frac{1}{2}
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: R5 - R2
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 0 & 0 & 0 & 1 & \frac{1}{2}\\
+            0 & 0 & 0 & 1 & 0 & -1\\
+            0 & 0 & 1 & 0 & -1 & -\frac{1}{2}\\
+            0 & 1 & 0 & 0 & 0 & -1
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: R4 + R2
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 0 & 0 & 0 & 1 & \frac{1}{2}\\
+            0 & 0 & 0 & 1 & 0 & -1\\
+            0 & 0 & 1 & 0 & 0 & 0\\
+            0 & 1 & 0 & 0 & 0 & -1
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Steps: Order so that left-hand side is identity:
+
+\begin{equation*}
+    \begin{aligned}
+        \left[\begin{array}{ccccc|c} 
+            1 & 0 & 0 & 0 & 0 & \frac{1}{2}\\
+            0 & 1 & 0 & 0 & 0 & -1\\
+            0 & 0 & 1 & 0 & 0 & 0\\
+            0 & 0 & 0 & 1 & 0 & -1\\
+            0 & 0 & 0 & 0 & 1 & \frac{1}{2}
+        \end{array}\right]
+    \end{aligned}
+\end{equation*}
+
+Given this, transfer function is:
+
+\begin{equation*}
+    \begin{aligned}
+        G(s) = \frac{1}{2 s} - \frac{1}{(s+1)} - \frac{1}{(s+1)^3} + \frac{1}{2(s+2)}
+    \end{aligned}
+\end{equation*}
+
+Using the following Laplace transforms:
+
+$$ u_s(t) \Leftrightarrow \frac{1}{s} $$
+$$ e^{-\alpha t} \Leftrightarrow \frac{1}{s+\alpha} $$
+$$ t^n e^{-\alpha t} \Leftrightarrow \frac{n!}{(s+\alpha)^{n+1}} $$
+
+The inverse Laplace Transform of the transfer function is:
+\begin{answer}
+$$ \mathcal{L}^{-1} \{G(s)\} =  \frac{1}{2} u_s(t) - e^{- t} - \frac{1}{2} t^2 e^{- t} + \frac{1}{2} e^{-2 t} $$
+\end{answer}
 
 
 \end{document}
