@@ -60,7 +60,7 @@ There is a real pole at $s = 0$.
 
 Using the \texttt{roots()} function MATLAB, we get that the roots are:
 
-$$ \texttt{roots(conv([1,5],[1,0,2]))} = \left(\begin{array}{c} -5\\ +1.4142{}\mathrm{i}\\ -1.4142{}\mathrm{i} \end{array}\right)$$
+$$ \texttt{roots(conv([1,5],[1,0,2]))} = \left(\begin{array}{c} -5\\ 0.0+1.4142{}\mathrm{i}\\ 0.0-1.4142{}\mathrm{i} \end{array}\right)$$
 
 There are complex conjugate poles on the imaginary axis (real parts of $s$ equal to zero).
 
@@ -187,9 +187,50 @@ $$ - \frac{\ \left|\begin{array}{cc} T & (2 + K) \\ (1 + 2T) & 5K \end{array}\ \
 
  $$ \frac{(2 + 4T)}{(3T-1)} > K $$
 
- The condition of stability exists when $ T > 0 $, $ K >0 $ and $ K <\frac{(2 + 4T)}{(3T-1)} $
+ The condition of stability exists when $ T > 0 $, $ K >0 $ and $ K <\frac{(2 + 4T)}{(3T-1)} $.
+ The following figure shows the stability region:
 
-    The boundaries of marginal stability are along $ T = 0 $, $ K = 0 $ and $ K = \frac{(2 + 4T)}{(3T-1)}$
+ \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{./figures/stability_region.png}
+    \caption{Stability Region}
+    \label{fig:stability}
+ \end{figure}
+
+ Populating these three boundaries with test values, I can evaluate the roots of the characteristic equation:
+\\\\
+If I use values of $T =0$ and $K = 1$:
+ $$\texttt{roots(subs([T,(1 + 2*T),(2 + K),5*K],[T,K],[0,1]))} =
+ \left(\begin{array}{c} -2.5000-2.9580{}\mathrm{i}\\ -2.5000+2.9580{}\mathrm{i} \end{array}\right)$$
+\begin{answer}
+Indicating that the system is \textbf{stable} along the boundary $T = 0$, since both poles are in the left-hand plane (LHP).
+\end{answer}
+
+If I use values of $T =1$ and $K = 0$:
+ $$\texttt{roots(subs([T,(1 + 2*T),(2 + K),5*K],[T,K],[1,0]))} =
+ \left(\begin{array}{c} -3\\ 0.0-2.2361{}\mathrm{i}\\ 0.0+2.2361{}\mathrm{i} \end{array}\right)$$
+\begin{answer}
+Indicating that the system is \textbf{marginally stable} along the boundary $K = 0$,
+as there are complex conjugate poles with real components equal to zero.
+\end{answer}
+
+If we evaluate $ K = \frac{(2 + 4T)}{(3T-1)} $ with the value $T = 2$, we get $K = 2$. Evaluating the characteristic equation with these values:
+$$\texttt{roots(subs([T,(1 + 2*T),(2 + K),5*K],[T,K],[2,2]))} =
+\left(\begin{array}{c} -2.5000\\ 0.0-1.4142{}\mathrm{i}\\ 0.0+1.4142{}\mathrm{i} \end{array}\right)$$
+\begin{answer}
+Indicating that the system is \textbf{marginally stable} along the boundary $K = 0$,
+as there are complex conjugate poles with real components equal to zero.
+\end{answer}
+
+If I use values of $T =0$ and $K = 0$:
+ $$\texttt{roots(subs([T,(1 + 2*T),(2 + K),5*K],[T,K],[0,0]))} =
+ \left(\begin{array}{c} 0\\ -2 \end{array}\right)$$
+\begin{answer}
+Indicating that the system is \textbf{marginally stable}at the point $K = 0$ and $T = 0$,
+as there is a pole with a value of zero.
+\end{answer}
+
+
 
 \subsection*{Problem 2}
 \subsubsection*{Consider the following transfer function and do the following}
@@ -233,6 +274,8 @@ All poles exist in the left-hand plane (LHP).
     The system is \textbf{stable}.
 \end{answer}
 
+* Note that the function I wrote is not rubust, as if any of the determinants evaluate zero, the resulting table will be incorrect.
+
 \subsubsection*{(b) Define the numerator and denominator in MATLAB, and use the STEP command to plot the system unit step response}
 
 I evaluated the following in MATLAB:
@@ -245,7 +288,8 @@ I evaluated the following in MATLAB:
 This produced the following plot:
 
 \begin{figure}[H]
-    \includegraphics[width=\linewidth]{./figures/step_response.png}
+    \centering
+    \includegraphics[width=0.7\linewidth]{./figures/step_response.png}
     \caption{Step Response}
     \label{fig:step}
  \end{figure}
