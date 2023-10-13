@@ -2,7 +2,7 @@
 
 clc, clear, close all
 
-alpha_array = [5,50,500];
+alpha_array = [-1,1,5,50,500];
 
 f = figure;
 
@@ -18,7 +18,7 @@ for alpha = alpha_array
 
     hold on
 
-    step(sys)
+    step(sys,30)
 
     lable_str = [lable_str,...
         {['\alpha = ' num2str(alpha)]}];
