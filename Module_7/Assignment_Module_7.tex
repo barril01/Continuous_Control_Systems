@@ -294,7 +294,7 @@ $$ G(s) = \frac{100(s+2)(s+\alpha)}{s(s^2 -1)} $$
 $$ \frac{Y(s)}{R(s)} = \frac{100s^2 + (200 + 100 \alpha)s + 200 \alpha}{s^3+100\,s^2+(199+100 \alpha) \,s+200\,\alpha } $$
 
 The stability of the system depends on the value of $\alpha$.
-
+\\\\
 Evaluating the characteristic equation using Routh Hurwitz, we get the following table:
 
 \begin{center}
@@ -329,6 +329,11 @@ $$ {e_{\text{ss}_\text{p}}}[\alpha = 0] = \frac{1}{1 + K_p} = \frac{1}{1 + (-200
 $$ {e_{\text{ss}_\text{p}}}[\alpha > 0] = \frac{1}{1 + K_p} = \frac{1}{1 + \infty} = 0 $$
 \end{answer}
 
+\begin{answer}
+For $\alpha < 0$, since the system is unstable, \textbf{the steady state error is infinite.}
+
+$$ {e_{\text{ss}_\text{p}}}[\alpha < 0] = \infty $$
+\end{answer}
 \subsection*{Problem 3}
 \subsubsection*{Consider the following non-unity feedback system:}
 
@@ -341,6 +346,108 @@ $$ {e_{\text{ss}_\text{p}}}[\alpha > 0] = \frac{1}{1 + K_p} = \frac{1}{1 + \inft
 
 \subsubsection*{(a) Derive an equivalent unity-feedback forward path transfer function}
 
+The transfer function for this system is of the form:
+
+$$ \frac{Y(s)}{R(s)} = K \left(\frac{ G(s)}{1+ G(s)\,H(s)} \right)$$
+
+To put it in the unity feedback form $\frac{Q(s)}{1+Q(s)}$, we must solve:
+
+$$ K \frac{ G(s)}{1+ G(s)\,H(s)} = \frac{Q(s)}{1+Q(s)} $$
+
+Which solves to:
+\begin{equation*}
+\begin{aligned}
+    Q(s) &= \frac{K G(s)}{G(s) H(s) - K(s) G(s) + 1 }\\
+    Q(s) &= \frac{K (s+4)}{s^2 + (6 - K)\,s +(10-4\,K)}
+\end{aligned}
+\end{equation*}
+
+The unity feedback transfer function $\frac{Y(s)}{R(s)}$ is:
+\begin{answer}
+    $$ \frac{Y(s)}{R(s)} = \frac{Q(s)}{1+Q(s)} = \frac{\frac{K (s+4)}{s^2 + (6 - K)\,s +(10-4\,K)}}{1+\left(\frac{K (s+4)}{s^2 + (6 - K)\,s +(10-4\,K)}\right)} $$
+\end{answer}
+
+This can of course be simplified to:
+
+$$ \frac{Y(s)}{R(s)} = \frac{K\,\left(s+4\right)}{s^2+6\,s+10} $$
+
+\subsubsection*{(b) Draw the block diagram of the equivalent unity-feedback system.}
+
+This can represented by the following block diagrams:
+
+\tikzset{
+block_b/.style={
+  draw, 
+  fill=blue!30, 
+  rectangle, 
+  minimum height=3em, 
+  minimum width=6em
+  },
+block_g/.style={
+  draw, 
+  fill=green!15, 
+  rectangle, 
+  minimum height=3em, 
+  minimum width=6em
+  },
+sum/.style={
+  draw, 
+  fill=blue!20, 
+  circle, 
+  },
+input/.style={coordinate},
+output/.style={coordinate},
+pinstyle/.style={
+  pin edge={to-,thin,black}
+  }
+}  
+
+% The block diagram code is probably more verbose than necessary
+\begin{center}
+    \begin{tikzpicture}[auto,>=latex']
+        % We start by placing the blocks
+        \node [input, name=input] {};
+        \node [sum, right = of input] (sum) {};
+        \node [block_g, right = of sum] (controller) {$Q(s)$};
+        % \node [block_b, right = of controller] (system) {$\frac{5}{s(s+4)(s+5) + 10}$};
+        % We draw an edge between the controller and system block to 
+        % calculate the coordinate u. We need it to place the measurement block. 
+        \node [output, right =of controller] (output) {};
+        \draw [->] (controller) -- node[name=y] {$Y(s)$} (output);
+        
+        % Once the nodes are placed, connecting them is easy. 
+        \draw [draw,->] (input) -- node {$R(s)$} (sum);
+        \draw [->] (sum) -- node {} (controller);
+        % \draw [->] (system) -- node [name=y] {$y(t)$}(output);
+        \draw [->] (y) -- ++(0,-2cm) -| node[pos=0.99] {$-$} 
+            node [near end] {} (sum);
+    \end{tikzpicture}
+\end{center}
+
+Or equivalently:
+\begin{answer}
+% The block diagram code is probably more verbose than necessary
+\begin{center}
+    \begin{tikzpicture}[auto,>=latex']
+        % We start by placing the blocks
+        \node [input, name=input] {};
+        \node [sum, right = of input] (sum) {};
+        \node [block_g, right = of sum] (controller) {$\frac{K (s+4)}{s^2 + (6 - K)\,s +(10-4\,K)}$};
+        % \node [block_b, right = of controller] (system) {$\frac{5}{s(s+4)(s+5) + 10}$};
+        % We draw an edge between the controller and system block to 
+        % calculate the coordinate u. We need it to place the measurement block. 
+        \node [output, right =of controller] (output) {};
+        \draw [->] (controller) -- node[name=y] {$Y(s)$} (output);
+        
+        % Once the nodes are placed, connecting them is easy. 
+        \draw [draw,->] (input) -- node {$R(s)$} (sum);
+        \draw [->] (sum) -- node {} (controller);
+        % \draw [->] (system) -- node [name=y] {$y(t)$}(output);
+        \draw [->] (y) -- ++(0,-2cm) -| node[pos=0.99] {$-$} 
+            node [near end] {} (sum);
+    \end{tikzpicture}
+\end{center}
+\end{answer}
 
 % \color{white}
 % \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize]{matlab}
