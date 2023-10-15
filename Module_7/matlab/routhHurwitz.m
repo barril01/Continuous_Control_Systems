@@ -1,7 +1,7 @@
 function table = routhHurwitz(CE)
 
     arguments
-        CE (1,:) %double % Characteristic Equation
+        CE (1,:) % Characteristic Equation
     end
     
     % Get number of rows and columns
@@ -9,7 +9,11 @@ function table = routhHurwitz(CE)
     num_col = ceil(num_row/2); % Rounds up
     
     % Initialize table as all zeros:
-    table = sym(zeros(num_row,num_col));
+    if isnumeric(CE)
+        table = zeros(num_row,num_col);
+    elseif isa(CE,'sym')
+        table = sym(zeros(num_row,num_col));
+    end
     
     % Assign the first two rows:
     row = 1;
@@ -30,7 +34,12 @@ function table = routhHurwitz(CE)
     for iterRow = 3:num_row-1
         for iterCol = 1:num_col-1
             % Intialize matrix for determinant
-            matrix = sym(zeros(2,2));
+            if isnumeric(CE)
+                matrix = zeros(2,2);
+            elseif isa(CE,'sym')
+                matrix = sym(zeros(2,2));
+            end
+            
             % Populate matrix for determinant
             matrix(1,1) = table(iterRow-2,1);
             matrix(2,1) = table(iterRow-1,1);
