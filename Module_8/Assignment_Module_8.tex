@@ -144,6 +144,108 @@ This equation can be rewritten as:
 
 $$ G(s)H(s) = \dfrac{K s}{(s+1)(s+j)(s-j)} $$
 
+Plotting the poles and the zeros:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{./figures/7-6-a_poles_and_zeros.png}
+    \caption{Poles and Zeros}
+    \label{fig:step}
+\end{figure}
+
+The angle of arrival is calculated as:
+
+$$ K < 0:  \ \ \sum^m_{k = 1}\theta_{z_k} - \sum^m_{j = 1}\theta_{p_j} = 2i\times 180^{\circ} $$
+
+The angle of arrival $(K < 0)$ at the pole $s = j$ is:
+
+$$ 90^{\circ} - (45^{\circ} + 90^{\circ} + \theta_a) = 2i \times 180^{\circ} $$
+
+Solving for $\theta_a$:
+
+$$ \theta_a = -45^{\circ} - 2i \times 180^{\circ} = -45^{\circ} - (0)  = -45^{\circ} $$
+
+The angle of departure is calculated as:
+
+$$ K > 0:  \ \ \sum^m_{k = 1}\theta_{z_k} - \sum^m_{j = 1}\theta_{p_j} = (2i+1)\times 180^{\circ} $$
+
+The angle of departure $(K > 0)$ at the pole $s = j$ is:
+
+$$ 90^{\circ} - (45^{\circ} + 90^{\circ} + \theta_d) = (2i+1)\times 180^{\circ} $$
+
+Solving for $\theta_d$:
+
+$$ \theta_d = -45^{\circ} - (2i+1)\times 180^{\circ} = -45^{\circ} - (-180^{\circ})  = 135^{\circ} $$
+
+The angle of arrival and angle of departure at the pole $s = j$ is:
+
+\begin{answer}
+$$ \theta_a = -45^{\circ}, \ \ \theta_d = 135^{\circ} $$
+\end{answer}
+
+\subsection*{Problem 1}
+\subsubsection*{The block diagram of a control system with tachometer feedback is shown in the following figure:}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{./figures/Q2_block_diagram.png}
+    \caption{Block Diagram Of A Control System}
+    \label{fig:bd_ctrl}
+\end{figure}
+
+\subsubsection*{(a) Construct the root loci of the CE for $\mathbf{K \ge 0}$ when $\mathbf{K_t=0}$.}
+\subsubsection*{(b) Set $\mathbf{K=10}$ and construct the root loci of the CE for $\mathbf{K_t \ge 0}$.}
+
+If $K_t = 0$, the transfer function of the control system is:
+
+$$ \frac{Y(s)}{R(s)} = \frac{\frac{K}{s^2 (s+5)}}{1 + \frac{K}{s^2 (s+5)}} = \frac{K}{s^2 (s+5) + K} $$
+
+Putting the characteristic equation into the form $ 1 + \frac{K Q(s)}{P(s)} = 0 $:
+
+$$ Q(s) = 1 $$
+
+$$ P(s) = s^2 (s+5) $$
+
+There are no zeros, there are 3 poles, at $s = 0, 0, -5$
+\\\\
+For large values of $s$, the root locus for $K > 0$ are asymptotic to asymptotes with angles
+given by:
+
+$$ \theta_i = \frac{(2i+1)}{|n-m|} \times 180^{\circ}, \ \ n \neq m, \ \ i = 0,1,2... \ |n-m|-1$$
+
+For this case:
+
+$$ |n-m|-1 = |3-0|-1 = 2 \rightarrow i = 0,1,2 $$
+
+Therefore, when $K > 0$:
+\begin{answer}
+    $$ \theta_0 = \frac{(2(0)+1)}{3} \times 180^{\circ} = 60^{\circ}, \ \ [K > 0] $$
+\end{answer}
+
+
+\begin{answer}
+    $$ \theta_1 = \frac{(2(1)+1)}{3} \times 180^{\circ} = 180^{\circ}, \ \ [K > 0] $$
+\end{answer}
+
+
+\begin{answer}
+    $$ \theta_2 = \frac{(2(2)+1)}{3} \times 180^{\circ} = 300^{\circ}, \ \ [K > 0] $$
+\end{answer}
+
+The point of intersection of the asymptotes is given by:
+
+$$ \sigma_1 = \frac{\sum \text{real parts of poles of } G(s)H(s) - \sum \text{real parts of zeros of } G(s)H(s) }{n-m} $$
+
+$$ \sigma_1 = \frac{(-5) - (0) }{3} = -\frac{5}{3} $$
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{./figures/Q2a_MATLAB_rootLocus.png}
+    \caption{Root Locus when $K_t = 0$ (MATLAB)}
+    \label{fig:step}
+\end{figure}
+
 
 
 % \color{white}
