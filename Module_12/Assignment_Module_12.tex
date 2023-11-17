@@ -1,0 +1,154 @@
+\documentclass[12pt, letterpaper]{../assignment}
+\usepackage{graphicx}
+\usepackage{courier}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{commath}
+\usepackage{amssymb}
+\usepackage{amsfonts} 
+\usepackage{cancel}
+\usepackage{enumitem}
+\usepackage{array}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+
+\usemintedstyle{monokai}
+\oddsidemargin = 0pt
+\exercisesheet{Module 11}{Practice Assignment}
+\student{Austin Barrilleaux}
+\courselabel{EN 525.609}
+\semester{Fall 2023}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\bibliography{reference}
+\usepackage{color}
+\definecolor{light-gray}{rgb}{0.2,0.2,0.2}
+\setminted{bgcolor=light-gray}
+\setlength{\parindent}{0pt}
+
+\makeatletter
+\patchcmd{\minted@colorbg}{\noindent}{\medskip\noindent}{}{}
+\apptocmd{\endminted@colorbg}{\par\medskip}{}{}
+\makeatother
+
+\begin{document}
+\subsection*{Problem 1}
+
+\subsubsection*{Solve the following 9th Edition textbook problems:\\
+\begin{itemize}
+    \item 9-1
+    \item 9-43
+\end{itemize}}
+
+\subsubsection*{(9-1) The block diagram of a control system with a series controller below.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{./figures/Problem_9_1.png}
+ \end{figure}
+
+\subsubsection*{Find the transfer function of the controller $\mathbf{G_c(s)}$ so that the following specifications are satisfied:
+\begin{itemize}
+    \item The ramp error constant $\mathbf{K_v}$ is 5.
+    \item The closed-loop transfer function is of the form:
+\end{itemize}
+$$ \mathbf{ M(s) = \frac{Y(s)}{R(s)} = \frac{K}{(s^2 + 20s + 200)(s+a)} } $$
+where $\mathbf{K}$ and $\mathbf{a}$ are real constants.
+Find the values of $\mathbf{K}$ and $\mathbf{a}$.}
+
+We know that the closed-loop transfer function is:
+
+$$ M(s) = \frac{G(s)}{1+G(s)} = \frac{K}{(s^2 + 20s + 200)(s+a)} $$
+
+Solving for $G(s)$:
+
+$$ G(s) = \frac{M(s)}{1-M(s)} =  \frac{K}{s^3 + (20 + a)s^2 + (200 + 20a)s + 200a  - K} $$
+
+For this system to have a constant ramp error, the system must be type 1,
+so in order to have a zero pole:
+
+$$ 200 a - K = 0 \ \ \ \rightarrow \ \ \ K = 200 a $$
+
+So $G(s)$ becomes:
+
+$$ G(s) = \frac{M(s)}{1-M(s)} =  \frac{200a}{s^3 + (20 + a)s^2 + (200 + 20a)s} $$
+
+The ramp error constant is computed as:
+
+$$ K_v = \lim_{s \to 0} s G(s) = \frac{s \cdot 200a}{s^3 + (20 + a)s^2 + (200 + 20a)s} = \frac{200a}{s^2 + (20 + a)s + (200 + 20a)} $$
+
+Evaluating this:
+
+$$ K_v = \frac{200a}{\cancelto{0}{s^2} + \cancelto{0}{(20 + a)s} + (200 + 20a)} = \frac{200a}{200 + 20a} = 5 $$
+
+\begin{answer}
+Solving for $a$, $a = 10$ and $K = 2000$.
+\end{answer}
+
+
+From this we can solve for the transfer function of the controller, $G_c(s)$:
+
+$$ G(s) = G_c(s) G_p(s) \ \ \ \rightarrow \ \ \ G_c(s) = \frac{G(s)}{G_p(s)} $$
+
+So:
+
+$$ G_c(s) = \frac{2000}{s(s^2 + 20s + 400)}
+     \left( \frac{s(s^2 + 10s + 100)}{100} \right)$$
+
+$G_c(s)$ reduces to:
+
+\begin{answer}
+$$ G_c(s) = \frac{20(s^2 + 10s + 100)}{(s^2 + 20s + 400)} $$
+\end{answer}
+
+\subsubsection*{The design strategy is to place the closed-loop poles at $\mathbf{- 10 + j10}$ and $\mathbf{-10 - j10}$,
+and then adjust the values of $\mathbf{K}$ and $\mathbf{a}$ to satisfy the steady-state requirement.
+The value of $\mathbf{a}$ is large so that it will not affect the transient response appreciably.
+Find the maximum overshoot of the designed system.}
+
+\begin{answer}
+We can determine the maximum overshoot of the system by using the \texttt{stepinfo()} function in MATLAB.
+Doing so, gives us a \textbf{maximum overshoot} of $0$.
+\end{answer}
+
+If we plot the response we can see that there is no overshoot:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{./figures/step_repsonse.png}
+\end{figure}
+
+\subsubsection*{(9-43) Consider that the process of a unity-feedback control system is:}
+
+$$ \mathbf{G_p(s) = \frac{1000}{s(s+10)} } $$
+
+\subsubsection*{Let the series controller be a single-stage phase-lead controller:}
+
+$$ \mathbf{G_c(s) = \frac{1+a T s}{1 + T s} , \ \ a > 1 } $$
+
+\subsubsection*{(a) Determine the values of $\mathbf{a}$ and $\mathbf{T}$ so that the zero of $\mathbf{G_c(s)}$ cancels the pole of $\mathbf{Gp(s)}$ at $\mathbf{s = -10}$.
+The damping ratio of the designed system should be unity.
+Find the attributes of the unit-step response of the designed system.}
+\subsubsection*{(b) Carry out the design in the frequency domain using the Bode plot. The design specifications are as follows:\\
+\begin{itemize}
+    \item Phase margin $\mathbf{> 75^\circ}$
+    \item $\mathbf{M_r < 1.1}$
+\end{itemize}
+Find the attributes of the unit-step response of the designed system.}
+    
+% \color{white}
+% \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize]{matlab}
+% {./matlab/Problem_5_18.m}
+% \color{black}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{./figures/step_response.png}
+%     \caption{Step Response}
+%     \label{fig:step}
+%  \end{figure}
+
+
+
+\end{document}
+
