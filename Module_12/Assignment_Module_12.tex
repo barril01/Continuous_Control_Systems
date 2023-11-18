@@ -129,13 +129,172 @@ $$ \mathbf{G_c(s) = \frac{1+a T s}{1 + T s} , \ \ a > 1 } $$
 \subsubsection*{(a) Determine the values of $\mathbf{a}$ and $\mathbf{T}$ so that the zero of $\mathbf{G_c(s)}$ cancels the pole of $\mathbf{Gp(s)}$ at $\mathbf{s = -10}$.
 The damping ratio of the designed system should be unity.
 Find the attributes of the unit-step response of the designed system.}
+
+Combining $G_p(s)$ and $G_c(s)$:
+
+$$ G(s) = \frac{1000a (\frac{1}{Ta}+ s)}{s(s+10)(\frac{1}{T} +s)} $$
+
+To cancel the $(s+10)$ pole:
+
+$$ \frac{1}{Ta} = 10 $$
+
+The transfer function becomes:
+
+$$ G(s) = \frac{1000a}{s(\frac{1}{T} +s)}, \ \ \frac{1}{Ta} = 10 $$
+
+The characteristic equation of the closed loop transfer function is:
+
+$$ s^2 + \frac{s}{T} + 1000a = 0 $$
+
+From this, we can define $\zeta$ and $\omega_n$ as:
+
+$$ \frac{1}{T} = 2 \zeta \omega_n \ \ \ \omega_n = \sqrt{1000a}  $$
+
+Therefore:
+
+$$ \frac{1}{T} = 10a = 2 \zeta \omega_n = 2 \sqrt{1000a} $$
+
+\begin{answer}
+    $$ 100a^2 = 4000a \ \ \rightarrow  \ \ a = 40 $$
+\end{answer}
+
+\begin{answer}
+    $$ T = \frac{1}{10a} = \frac{1}{400} $$
+\end{answer}
+
+\begin{answer}
+    The constant $a = 40$ and $T = 0.0025$.
+\end{answer}
+
+The closed loop transfer function is:
+
+$$ M(s) = \frac{40000}{s^2 + 400s + 40000} $$
+
+Solvinf for the attributes of the system:
+$$ \zeta = \frac{400}{2 \omega_n}  =\frac{400}{2 \sqrt{40000}} = 1 $$
+
+\begin{answer}
+Therefor, maximum overshoot is $0$.
+\end{answer}
+
+The rise time can be approximated as:
+
+\begin{answer}
+$$ t_r = \frac{0.8+2.5\zeta}{\omega_n} = 0.0165 \ \  \text{sec} $$
+\end{answer}
+
+The settling time can be approximated as:
+
+\begin{answer}
+$$ t_s = \frac{4.5 \zeta}{\omega_n} = 0.0225\ \  \text{sec}, \ \ \ \zeta > 0.69 $$
+\end{answer}
+
 \subsubsection*{(b) Carry out the design in the frequency domain using the Bode plot. The design specifications are as follows:\\
 \begin{itemize}
     \item Phase margin $\mathbf{> 75^\circ}$
     \item $\mathbf{M_r < 1.1}$
 \end{itemize}
 Find the attributes of the unit-step response of the designed system.}
-    
+
+The uncompensated open loop transfer function is:
+
+$$ G (s) = \frac{1000}{s(s+10)} $$
+
+The attributes of the system using \texttt{margin()} and \texttt{getPeakMargin()} functions in MATLAB,
+we see that $PM = 17.9642$, $GM = \infty$ and $M_r = 3.2026$
+\\\\
+In order the meet the phase margin requirement, we need to shift it by:
+
+$$ 75^\circ-17.9642^\circ+15^\circ = 72.0358^\circ$$
+
+This includes a fudge factor of $5^\circ$.
+\\\\
+$a$ is calculated as:
+
+$$ a = \frac{1+\sin(72.0358^\circ)}{1-\sin(72.0358^\circ)} = 40.0251 $$
+
+The gain of the controller is calculated as:
+
+$$ -10 \log_{10} (a) = -10 \log_{10} (40.0251) = -16.0233 \ \text{dB} $$
+
+The gain magnitude is:
+
+$$ |G(j\omega)| = \left| \frac{1000}{j\omega(j\omega+100)} \right| 
+    = \frac{1000}{\omega \sqrt{\omega^2+100} }  $$
+
+We can solve for the new gain crossover frequency as:
+
+$$ \frac{1000}{\omega \sqrt{\omega^2+10}} = 10^{\frac{-16.0233 }{20}} $$
+
+We can put this in the form:
+
+$$ \omega^4 + 100\omega^2 + \left(\frac{1000}{10^{\frac{-16.0233 }{20}}}\right)^2 = 0 $$
+
+We can solve for $\omega_\text{max}$ via the following:
+
+$$ \omega_\text{max} = \sqrt{-10+\sqrt{10^2 + \left(\frac{1000}{10^{\frac{-16.0233 }{20}}}\right)^2}}
+    = 79.4767 \ \text{rad/s} $$
+
+The relationship between $\omega_\text{max}$ and the compensator pole / zero location is:
+
+$$ \omega_\text{max} = \frac{1}{\tau \sqrt{a}} = \frac{1}{T \sqrt{a}} \ \ ,
+    \ \ \ \ \ \ \ \ \  (\tau = T) $$
+
+Therefore:
+
+$$ T = \frac{1}{\sqrt{a} \omega_\text{max}} = 0.0020 \ \text{rad/s} $$
+
+The controller transfer function is:
+
+$$ G_c(s) = \frac{1+0.0796 s}{1 + 0.0020s} $$
+
+We now get the following for $G(s)$:
+
+$$ G(s) = \frac{1000}{s(s+10)}\left(\frac{1+0.0796 s}{1 + 0.0020s}\right)
+    =  \frac{79.6 s + 1000}{0.001989 s^3 + 1.02 s^2 + 10 s} $$
+
+\begin{answer}
+    If we evaluate this using the \texttt{margin()} function in MATLAB,
+    we get that $PM = 79.2502$ and $GM = \infty$.
+\end{answer}
+
+\begin{answer}
+    If we evaluate it's corresponding closed loop transfer function using the \texttt{getPeakMargin()} function in MATLAB,
+    we get that $M_r= 1.0096$.
+\end{answer}
+
+\begin{answer}
+This controller design satisfies both of the constraints, that $\mathbf{PM > 75^\circ}$ and $\mathbf{M_r < 1.1}$.
+\end{answer}
+
+The attributes of the unit-step response of the designed system,
+found using the \texttt{stepinfo()} function in MATLAB are:
+
+\begin{answer}
+\begin{itemize}
+\item $t_r = 0.0216$ sec
+\item $t_s = 0.0348$ sec
+\item \textbf{\%OS} $= 1.7075$ \%
+\end{itemize} 
+\end{answer}
+
+The step response can be seen here:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{./figures/step_repsonse_designed_controller.png}
+\end{figure}
+
+The bode plot for the system is:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{./figures/margin_plot.png}
+\end{figure}
+
+I attempted this part the first time with a fudge factor of $5^\circ$,
+which did not meet the design requirements.
+
 % \color{white}
 % \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize]{matlab}
 % {./matlab/Problem_5_18.m}
