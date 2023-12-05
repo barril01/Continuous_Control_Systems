@@ -148,37 +148,62 @@ The feedback gains $k_1$, $k_2$, and $k_3$ are real constants.}
     \includegraphics[width=\linewidth]{./figures/P10_59.png}
  \end{figure}
 
-% \end{answer}
+ \subsubsection*{(a) Find the values of the feedback gains so that:
+ \begin{itemize}
+    \item The steady-state error $e_{ss}$ [$e(t)$ is the error signal] due to a step input is zero.
+    \item The characteristic equation roots are at $- 1+j$ , $-1-j$ , and $-10$.
+\end{itemize}}
 
-% Which can also be written as:
+If we reduce the block diagram to a unity feedback system,
+we get that the forward path transfer function, $G(s)$ is:
 
-% $$ G_c(s)G_p(s) = \frac{200a(s+\frac{1}{a T})}{s(s +1)(s + 10)(s+\frac{1}{T})} $$
+$$ G(s) = \frac{k_{3}}{s^3 + (k_{2} + 4) s^2 + (k_{1}+k_{2}+3)s} $$
 
-% Looking at a zoomed in view of the root locus plot for the uncompensated system made using the \texttt{rlocus()} function in MATLAB,
-% we can see what the complex conjugate roots look like when the damping ratio is roughly equal to $\cos(45^\circ) \approx 0707$:
+The closed loop transfer function is:
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{./figures/rlocus_9_49a.png}
-%     \caption{Root Locus}
-% \end{figure}
+$$ \frac{Y(s)}{R(s)} = \frac{G(s)}{1+G(s)}
+= \frac{k_{3}}{s^3 + (k_{2} + 4) s^2 + (k_{1}+k_{2}+3)s + k_{3}}  $$
 
-% If we make the assumption that $ \frac{1}{a T} = \frac{1}{T} $, we can write $G(s)$ as:
+For $e_{ss}$ to be zero, when the input is a step function, $K_p$ must be infinite:
 
-% $$ G_c(s)G_p(s) = \frac{200a}{s(s +1)(s + 10)} $$
+$$ K_p = \lim_{s \to 0} G(s) = \frac{k_{3}}{s^3 + (k_{2} + 4) s^2 + (k_{1}+k_{2}+3)s} = \infty $$
 
-% Using this equation we can solve for $a$ using the following MATLAB code:
+Since all values in the denominator multiply by $s$,
+$\mathbf{e_{ss}}$ \textbf{is zero for all values of $\mathbf{k_1}$, $\mathbf{k_2}$, and $\mathbf{k_3}$} since:
+\begin{answer}
+$$ e_{ss} = \frac{R}{1+K_p} = \frac{R}{1+\infty} = 0 $$
+\end{answer}
 
-% \color{white}
-% \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize,
-% firstline=8,lastline=29]{matlab}
-% {./matlab/P9_49.m}
-% \color{black}
+The characteristic equation is:
 
-% Not that the above algorithm only works given good initial boundaries.
+$$\text{CE: \ \ } s^3 + (k_{2} + 4) s^2 + (k_{1}+k_{2}+3)s + k_{3} = 0$$
 
-% This solves for a value for $a$ of $a = 0.02268$, where $\zeta - \cos(45^\circ) = -2.22 \cdot 10^{-16}.
-% $
+And we want the characteristic equation roots to be  $- 1+j$ , $-1-j$ , and $-10$.
+We make the following equivalence:
+
+$$s^3 + (k_{2} + 4) s^2 + (k_{1}+k_{2}+3)s + k_{3} = s^3 + 12 s^2 + 22 s + 20 $$
+
+If we equate like terms of $s$:
+
+\begin{equation*}
+    \begin{aligned}
+        &(k_{2} + 4) = 12 &\rightarrow \ \ &k_{2} = 8\\
+        &(k_{1}+k_{2}+3) = 22  &\rightarrow \ \  &k_{1} = 11\\
+        &k_{3} = 20 &\rightarrow \ \  &k_{3} = 20
+    \end{aligned}
+\end{equation*}
+
+\begin{answer}
+Find the values of the feedback gains are:
+\begin{equation*}
+    \begin{aligned}
+        &k_{1} = 11\\
+        &k_{2} = 8\\
+        &k_{3} = 20
+    \end{aligned}
+\end{equation*}
+
+\end{answer}
 
 % \color{white}
 % \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize]{matlab}
