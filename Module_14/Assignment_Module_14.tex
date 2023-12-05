@@ -1,0 +1,198 @@
+\documentclass[12pt, letterpaper]{../assignment}
+\usepackage{graphicx}
+\usepackage{courier}
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{commath}
+\usepackage{amssymb}
+\usepackage{amsfonts} 
+\usepackage{cancel}
+\usepackage{enumitem}
+\usepackage{array}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning}
+
+\usemintedstyle{monokai}
+\oddsidemargin = 0pt
+\exercisesheet{Module 14}{Practice Assignment}
+\student{Austin Barrilleaux}
+\courselabel{EN 525.609}
+\semester{Fall 2023}
+\usepackage[backend=bibtex,style=numeric,sorting=none]{biblatex}
+\bibliography{reference}
+\usepackage{color}
+\definecolor{light-gray}{rgb}{0.2,0.2,0.2}
+\setminted{bgcolor=light-gray}
+\setlength{\parindent}{0pt}
+
+\makeatletter
+\patchcmd{\minted@colorbg}{\noindent}{\medskip\noindent}{}{}
+\apptocmd{\endminted@colorbg}{\par\medskip}{}{}
+\makeatother
+
+\begin{document}
+\subsection*{Problem 1}
+
+\subsubsection*{Solve the following 9th Edition textbook problems:\\
+\begin{itemize}
+    \item 10-18 (a,c,f)
+    \item 10-59 (a)
+\end{itemize}}
+
+\subsubsection*{(10-18) Check the contro1ihi1ity of the following systems:}
+
+\subsubsection*{(a) \ \ \ $\boldmath{
+\left[\begin{array}{c} \dot{x}_1\\\dot{x}_2 \end{array}\right]
+= \left[\begin{array}{rr} -1 & 0 \\ 0 &  -2 \end{array}\right]
+\left[\begin{array}{c} x_1\\x_2 \end{array}\right]
++ \left[\begin{array}{c} 2 \\ 5 \end{array}\right] u  }$}
+
+The controllability matrix (determined using MATLAB) is:
+
+\begin{equation*}
+\begin{aligned} 
+\textbf{Q}_c &= \left[\begin{array}{cc} \textbf{b} & \textbf{A}\textbf{b} \end{array}\right]\\
+             &= \left[\begin{array}{cc}
+                    2 & -2 \\
+                    5 & -10
+                \end{array}\right]
+\end{aligned}   
+\end{equation*}
+
+The rank of $\textbf{Q}_c$ determined using the \texttt{rank()} function in MATLAB is:
+
+$$ \texttt{rank}(\textbf{Q}_c ) = 2 $$
+
+\begin{answer}
+Since the $n \times n$ controllability matrix has a rank of $n$,
+\textbf{the system is controllable}.
+\end{answer}
+
+\subsubsection*{(c) \ \ \ $\boldmath{
+\left[\begin{array}{c} \dot{x}_1\\\dot{x}_2 \end{array}\right]
+= \left[\begin{array}{rrr} -1 & 1 & 0 \\0 & -1 & 0 \\ 0 & 0 & -2 \end{array}\right]
+\left[\begin{array}{c} x_1\\x_2\\ x_3 \end{array}\right]
++ \left[\begin{array}{rr} 4 & 2 \\ 0 & 0 \\ 3 & 0 \end{array}\right]
+\left[\begin{array}{c} u_1\\u_2 \end{array}\right]  }$}
+
+The controllability matrix (determined using MATLAB) is:
+
+\begin{equation*}
+\begin{aligned} 
+\textbf{Q}_c &= \left[\begin{array}{ccc} \textbf{b} & \textbf{A}\textbf{b} & \textbf{A}^2\textbf{b} \end{array}\right]\\
+                &= \left[\begin{array}{rrrrrr}
+                    4 & 2 & -4 & -2 &  4 & 2 \\
+                    0 & 0 &  0 &  0 &  0 & 0 \\
+                    3 & 0 & -6 &  0 & 12 & 0
+                \end{array}\right]
+\end{aligned}   
+\end{equation*}
+
+\begin{answer}
+We know that, for controllability,
+the controllability matrix $\textbf{Q}_c$ \textbf{must be square}.
+Since it is not, we know \textbf{the system is not controllable}.
+\end{answer}
+
+Regardless, we can still check the rank of $\textbf{Q}_c$ using the \texttt{rank()} function in MATLAB:
+
+$$ \texttt{rank}(\textbf{Q}_c ) = 2 $$
+
+This confirms the above conclusion.
+
+\subsubsection*{(f) \ \ \ $\boldmath{
+\left[\begin{array}{c} \dot{x}_1\\\dot{x}_2\\\dot{x}_3\\\dot{x}_4\\\dot{x}_5 \end{array}\right]
+= \left[\begin{array}{rrrrr}
+            -2 & 1 & 0 & 0 & 0\\
+             0 & -2  & 1 & 0 & 0\\
+             0 & 0  & -2 & 0 & 0\\
+             0 & 0  & 0 & -5 & 1\\
+             0 & 0 & 0 & 0 & -5
+        \end{array}\right]
+\left[\begin{array}{c} x_1\\x_2\\x_3\\x_4\\x_5  \end{array}\right]
++ \left[\begin{array}{r} 4  \\ 2 \\ 1 \\ 3 \\ 0 \end{array}\right] u}$}
+
+
+The controllability matrix (determined using MATLAB) is:
+
+\begin{equation*}
+\begin{aligned} 
+\textbf{Q}_c &= \left[\begin{array}{ccccc}
+    \textbf{b} & \textbf{A}\textbf{b} & \textbf{A}^2\textbf{b} & \textbf{A}^3\textbf{b} & \textbf{A}^4\textbf{b} \end{array}\right]\\
+             &= \left[\begin{array}{rrrrr}
+                 4 &  -6 &  9 &  -14 &   24 \\
+                 2 &  -3 &  4 &   -4 &    0 \\
+                 1 &  -2 &  4 &   -8 &   16 \\
+                 3 & -15 & 75 & -375 & 1875 \\
+                 0 &   0 &  0 &    0 &    0
+                \end{array}\right]
+\end{aligned}   
+\end{equation*}
+
+The rank of $\textbf{Q}_c$ determined using the \texttt{rank()} function in MATLAB is:
+
+$$ \texttt{rank}(\textbf{Q}_c ) = 4 $$
+
+\begin{answer}
+Since the $n \times n$ controllability matrix does not have a rank of $n$ ($n=5,n \neq 4$),
+\textbf{the system is not controllable}.
+\end{answer}
+
+\subsubsection*{(10-59)
+The block diagram of a control system with state feedback is shown in the following figure.
+The feedback gains $k_1$, $k_2$, and $k_3$ are real constants.}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{./figures/P10_59.png}
+ \end{figure}
+
+% \end{answer}
+
+% Which can also be written as:
+
+% $$ G_c(s)G_p(s) = \frac{200a(s+\frac{1}{a T})}{s(s +1)(s + 10)(s+\frac{1}{T})} $$
+
+% Looking at a zoomed in view of the root locus plot for the uncompensated system made using the \texttt{rlocus()} function in MATLAB,
+% we can see what the complex conjugate roots look like when the damping ratio is roughly equal to $\cos(45^\circ) \approx 0707$:
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{./figures/rlocus_9_49a.png}
+%     \caption{Root Locus}
+% \end{figure}
+
+% If we make the assumption that $ \frac{1}{a T} = \frac{1}{T} $, we can write $G(s)$ as:
+
+% $$ G_c(s)G_p(s) = \frac{200a}{s(s +1)(s + 10)} $$
+
+% Using this equation we can solve for $a$ using the following MATLAB code:
+
+% \color{white}
+% \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize,
+% firstline=8,lastline=29]{matlab}
+% {./matlab/P9_49.m}
+% \color{black}
+
+% Not that the above algorithm only works given good initial boundaries.
+
+% This solves for a value for $a$ of $a = 0.02268$, where $\zeta - \cos(45^\circ) = -2.22 \cdot 10^{-16}.
+% $
+
+% \color{white}
+% \hspace*{6em}\inputminted[frame=leftline,fontsize=\footnotesize]{matlab}
+% {./matlab/Problem_5_18.m}
+% \color{black}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{./figures/step_response.png}
+%     \caption{Step Response}
+%     \label{fig:step}
+%  \end{figure}
+
+
+
+\end{document}
+

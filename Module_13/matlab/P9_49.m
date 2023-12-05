@@ -1,6 +1,6 @@
 clc,clear 
 
-num = 200; 
+num = 200*a; 
 den = conv(conv([1 1],[1 10]),[1,0]); 
 
 rlocus(tf(num,den)) 

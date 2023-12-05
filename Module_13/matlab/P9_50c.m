@@ -18,7 +18,7 @@ while abs(d_min(idx)-cosd(45))>eps
 
     for a = bounds(1):del:bounds(end) 
         k = k+1; 
-        [~,d] = damp(tf(num*a,den +[0 0 0 num*a])); 
+        [~,d] = margin(tf(num*a,den +[0 0 0 num*a])); 
         d_min(k) = abs(min(d)); 
     end 
 
@@ -30,7 +30,7 @@ end
 a = a_vals(idx); 
 zeta = d_min(idx); 
 
-T = 5000; 
+T = 4400; 
 
 num = (250*a)*[1 1/(a*T)]; 
 den = conv(conv(conv([1 5],[1 5]),[1,0]),[1 1/T]) + [0,0,0,num]; 
